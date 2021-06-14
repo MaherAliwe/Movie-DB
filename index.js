@@ -10,6 +10,7 @@ const movies = [
     { title: 'الإرهاب والكباب‎', year: 1992, rating: 6.2 }
 ]
 
+//step2
 app.get('/', (req, res) => {
     res.send('Ok')
 })
@@ -18,6 +19,8 @@ app.listen(port, () => {
     console.log(`Example app listening at http://localhost:3000`)
 })
 
+//step3
+
 app.get('/test', (req, res) => {
     res.send({ status: 200, message: "ok" })
 })
@@ -25,6 +28,10 @@ app.get('/test', (req, res) => {
 app.get('/time', (req, res) => {
     res.send({ status: 200, message: date })
 })
+
+
+//step4
+
 
 app.get('/hello/:name', (req, res) => {
     res.send({ status: 200, message: "hello " + req.params.name });
@@ -35,13 +42,15 @@ app.get('/hello/', (req, res) => {
 })
 
 app.get('/search', (req, res) => {
-    const search = req.query.s;
-    if (search == "") {
-        res.status(500);
-        res.send({ status: 500, error: true, message: "you have to provide a search" });
-    }
-    res.send({ status: 200, message: "ok", data: search });
-})
+        const search = req.query.s;
+        if (search == "") {
+            res.status(500);
+            res.send({ status: 500, error: true, message: "you have to provide a search" });
+        }
+        res.send({ status: 200, message: "ok", data: search });
+    })
+    //step5
+
 app.get('/movies/add', (req, res) => {
     res.send({ status: 200, message: "ok", data: movies });
 })
@@ -59,5 +68,34 @@ app.get('/movies/delete', (req, res) => {
 })
 
 app.get('/movies/read', (req, res) => {
+    res.send({ status: 200, message: "Ok", data: movies });
+})
+
+//step6
+
+app.get('/movies/get/by-date', (req, res) => {
+    movies.sort(function(a, b) {
+        var dateA = new Date(a.year),
+            dateB = new Date(b.year);
+        return dateA - dateB;
+    });
+    res.send({ status: 200, message: "Ok", data: movies });
+})
+
+app.get('/movies/get/by-rating', (req, res) => {
+    movies.sort(function(b, a) {
+        return a.rating - b.rating;
+    });
+    res.send({ status: 200, message: "Ok", data: movies });
+})
+
+app.get('/movies/get/by-title', (req, res) => {
+    movies.sort(function(a, b) {
+        var titleA = a.title.toLowerCase(),
+            titleB = b.title.toLowerCase();
+        if (titleA < titleB) return -1;
+        if (titleA > titleB) return 1;
+        return 0;
+    });
     res.send({ status: 200, message: "Ok", data: movies });
 })
