@@ -99,3 +99,24 @@ app.get('/movies/get/by-title', (req, res) => {
     });
     res.send({ status: 200, message: "Ok", data: movies });
 })
+
+//Step7
+
+app.get('/movies/read/id/:id', (req, res) => {
+    selectedId = req.params.id - 1;
+    var result;
+    console.log(movies.length);
+    if (!isNaN(selectedId)) {
+        if (selectedId < movies.length && selectedId >= 0) {
+            result = movies[selectedId];
+            res.send({ status: 200, message: result });
+        } else {
+            res.status(404);
+            res.send({ status: 404, error: true, data: movies, message: "the movie " + (selectedId + 1) + " not exist" });
+        }
+    } else {
+        res.status(500);
+        res.send({ status: 500, error: true, message: "Please enter a number" });
+    }
+
+})
