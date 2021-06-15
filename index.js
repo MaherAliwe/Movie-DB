@@ -114,9 +114,7 @@ app.get('/movies/read/id/:id', (req, res) => {
             res.status(404);
             res.send({ status: 404, error: true, data: movies, message: "the movie " + (selectedId + 1) + " not exist" });
         }
-    } else {
-        res.status(500);
-        res.send({ status: 500, error: true, message: "Please enter a number" });
+
     }
 
 })
