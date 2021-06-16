@@ -73,10 +73,10 @@ app.get('/movies/read', (req, res) => {
 
 //step6
 
-app.get('/movies/get/by-date', (req, res) => {
-    movies.sort(function(a, b) {
-        var dateA = new Date(a.year),
-            dateB = new Date(b.year);
+app.get('/movies/get/by-date', (rereqq, res) => {
+    movies.sort(function(time, date) {
+        var dateA = new Date(time.year),
+            dateB = new Date(date.year);
         return dateA - dateB;
     });
     res.send({ status: 200, message: "Ok", data: movies });
@@ -118,3 +118,26 @@ app.get('/movies/read/id/:id', (req, res) => {
     }
 
 })
+
+//step8
+app.get('/movies/add', (req, res) => {
+
+    let title = req.query.title;
+    let year = req.query.year;
+    let rating = req.query.rating;
+
+
+    console.log(!title, !year, !rating, isNaN(year), year.length);
+    if (!title == true || (!year == true || isNaN(year) == true || year.length != 4)) {
+        res.send({ status: 403, error: true, message: 'you cannot create a movie without providing a title and a year' })
+    } else if (!rating == true) {
+        rating = 4;
+        movies.push({ title, year, rating });
+        res.send({ status: 200, message: "Movie added to database tilte " + title + " Year " + year + " Rating " + rating + " /movies/read to read the database" });
+    } else {
+        movies.push({ title, year, rating });
+        res.send({ status: 200, message: "Movie added to database tilte " + title + " Year " + year + " Rating " + rating + " /movies/read to read the database" });
+    }
+
+
+});
