@@ -83,16 +83,16 @@ app.get('/movies/get/by-date', (rereqq, res) => {
 })
 
 app.get('/movies/get/by-rating', (req, res) => {
-    movies.sort(function(b, a) {
-        return a.rating - b.rating;
+    movies.sort(function(date, time) {
+        return time.rating - date.rating;
     });
     res.send({ status: 200, message: "Ok", data: movies });
 })
 
 app.get('/movies/get/by-title', (req, res) => {
-    movies.sort(function(a, b) {
-        var titleA = a.title.toLowerCase(),
-            titleB = b.title.toLowerCase();
+    movies.sort(function(time, date) {
+        var titleA = time.title.toLowerCase(),
+            titleB = date.title.toLowerCase();
         if (titleA < titleB) return -1;
         if (titleA > titleB) return 1;
         return 0;
@@ -140,4 +140,16 @@ app.get('/movies/add', (req, res) => {
     }
 
 
+});
+
+//step9
+
+app.get('/movies/delete/:id', (req, res) => {
+    if (!movies[req.params.id]) {
+        res.status(404);
+        res.send({ status: 404, error: true, message: 'the movie ' + req.params.id + ' does not exist' })
+    } else {
+        movies.splice(req.params.id, 1);
+        res.send({ status: 200, data: movies });
+    }
 });
